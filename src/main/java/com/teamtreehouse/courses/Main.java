@@ -2,6 +2,7 @@ package com.teamtreehouse.courses;
 
 
 
+import com.teamtreehouse.courses.model.CourseIdea;
 import com.teamtreehouse.courses.model.CourseIdeaDAO;
 import com.teamtreehouse.courses.model.SimpleCourseIdeaDAO;
 import spark.ModelAndView;
@@ -34,9 +35,21 @@ public class Main {
             String username = req.queryParams("username");
             model.put("username", username);
             res.cookie("username", username);
+            res.redirect("/");
+            return null;
+        });
 
-            return new ModelAndView(model, "sign-in.hbs");
+        get("/ideas", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            model.put("ideas",dao.findAll());
+            return new ModelAndView(model, "ideas.hbs");
         }, new HandlebarsTemplateEngine());
 
+        post("/ideas", (req, res) -> {
+            dao.add(new CourseIdea(req.queryParams("title"),req.cookie("username")));
+            res.redirect("/ideas");
+            return null;
+
+        });
     }
 }
