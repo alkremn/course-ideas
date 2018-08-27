@@ -1,0 +1,13 @@
+{{#partial "content"}}
+{{#if username }}
+    <h1>Welcome {{username }}!</h1>
+{{else}}
+    <h1>Welcome Students!!!!</h1>
+    <form action="/sign-in" method="post">
+        <input type="text" name="username" placeholder="What is your username?" />
+        <button>Sign in</button>
+    </form>
+{{/if}}
+{{/partial}}
+
+{{> base.hbs}}
